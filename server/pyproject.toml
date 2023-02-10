@@ -8,9 +8,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-numpy = "^1.24.2"
-pandas = "^1.5.3"
-matplotlib = "^3.6.3"
+langchain = "^0.0.82"
 
 
 [build-system]
