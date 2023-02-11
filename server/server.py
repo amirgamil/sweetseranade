@@ -24,8 +24,8 @@ def root():
     return {"hello": "world"}
 
 
-@app.post("/return-poem")
-def return_love_poem(prompt: str, file: UploadFile = File(...)):
+@app.post("/find-relevant-chunks")
+def find_relevant_chunks(prompt: str, file: UploadFile = File(...)):
     # TODO: Will read file & output love poem
     try:
         stream = extract_stream(file)
@@ -34,6 +34,27 @@ def return_love_poem(prompt: str, file: UploadFile = File(...)):
             stream, prompt, NUM_RELEVANT_CHUNKS
         )
         return {"relevant_document_context": relevant_document_context}
+    except Exception as ex:
+        print(ex)
+        return {"error": "Error uploading file"}
+    finally:
+        file.file.close()
+
+
+# TODO add style in completion
+@app.post("/create-poem")
+def create_poem(style: str, character_first: str, character_second: str, file: UploadFile = File(...)):
+    # TODO: Will read file & output love poem
+    try:
+        stream = extract_stream(file)
+        # either parse PDF of raw text for testing
+        # TODO: experiment with prompt for relevant docs here
+        relevant_document_context = return_relevant_document_context(
+            stream, "love song between {0} {1}".format(character_first, character_second), NUM_RELEVANT_CHUNKS
+        )
+        context_summary = summarize_context(character_first, character_second, relevant_document_context)
+        completion = generate_love_song(character_first, character_second, context_summary)
+        return {"completion": completion}
     except Exception as ex:
         print(ex)
         return {"error": "Error uploading file"}
