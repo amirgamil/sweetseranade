@@ -1,5 +1,6 @@
 from langchain.text_splitter import NLTKTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
+from langchain.vectorstores import FAISS
 from constants import DUMMY_TEXT_LONG
 
 # TODO
@@ -39,3 +40,41 @@ def get_chunk_embeddings(chunks: list[str]) -> list[list[float]]:
     embeddings = OpenAIEmbeddings()
     chunk_embeddings = embeddings.embed_documents(chunks)
     return chunk_embeddings
+
+def calculate_embedding(text: str) -> list[float]:
+    """For a single piece of text, calculates the embeddings for that text
+
+    Args:
+        text (str): Text to calculate embedding for 
+
+    Returns:
+        list[float]: Text embedding
+    """
+    embeddings = OpenAIEmbeddings()
+    text_embedding = embeddings.embed_query(text)
+    return text_embedding
+
+def find_relevant_chunks(prompt_subset: str, chunks: list[str], k: int) -> list[str]:
+    """Given a prompt subset, a list of chunks, & chunk embeddings, returns the K chunks with with the cloest embeddings
+    to the prompt subset. 
+
+    Args:
+        prompt_subset (str): Subset of the prompt
+        chunks (list[str]): List of chunks
+        k (int): Number of relevant chunks to return
+
+    Returns:
+        list[str]: List of K most relevant chunks
+    """
+    embeddings = OpenAIEmbeddings()
+    chunk_search = FAISS.from_texts(chunks, embeddings)
+    all_chunks = chunk_search.similarity_search(prompt_subset)
+    relevant_chunks = all_chunks[:k]
+    relevant_chunks_only_content = [document.page_content for document in relevant_chunks]
+    return relevant_chunks_only_content
+
+# a = find_relevant_chunks("What's the effect of inflation on interest rates?", chunk_text(DUMMY_TEXT_LONG), 3)
+# for item in a:
+#     print(f'Item is {item}\n')
+
+
