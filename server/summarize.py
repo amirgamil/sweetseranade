@@ -3,7 +3,7 @@ from langchain.chains.summarize import load_summarize_chain
 from langchain.llms import OpenAI
 from langchain.docstore.document import Document
 
-base_prompt = """Write a detailed summary about {0}, {1} and their relationship. Include specific details about their relationship, interactions and how it changes throughout the story:"""
+base_prompt = """Write a detailed summary about {0}, {1} and their relationship. Include specific details about their relationship, interactions, personal details, what they like about each other, and how it changes throughout the story. Also include relevant quotes that could be inserted into the song:"""
 llm = OpenAI(temperature=0)
 
 

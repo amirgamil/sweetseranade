@@ -42,8 +42,8 @@ def find_relevant_chunks(prompt: str, file: UploadFile = File(...)):
 
 
 # TODO add style in completion
-@app.post("/create-poem")
-def create_poem(style: str, character_first: str, character_second: str, file: UploadFile = File(...)):
+@app.post("/create-song")
+def create_song(style: str, character_first: str, character_second: str, file: UploadFile = File(...)):
     # TODO: Will read file & output love poem
     try:
         stream = extract_stream(file)
@@ -53,7 +53,7 @@ def create_poem(style: str, character_first: str, character_second: str, file: U
             stream, "love song between {0} {1}".format(character_first, character_second), NUM_RELEVANT_CHUNKS
         )
         context_summary = summarize_context(character_first, character_second, relevant_document_context)
-        completion = generate_love_song(character_first, character_second, context_summary)
+        completion = generate_love_song(character_first, character_second, context_summary, style)
         return {"completion": completion}
     except Exception as ex:
         print(ex)
