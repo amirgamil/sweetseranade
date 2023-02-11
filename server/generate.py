@@ -151,7 +151,7 @@ def generate_love_song(character_first: str, character_second: str, context: str
         few_shot_prompt = FewShotPromptTemplate(
             examples=examples,
             example_prompt=example_prompt,
-            prefix="Write a love between the characters given the context",
+            prefix="Write a love song between the characters given the context",
             suffix="Characters: {character_first} and {character_second}\nContext: {context}\nOutput:",
             input_variables=["character_first", "character_second", "context"],
             example_separator="\n\n",
