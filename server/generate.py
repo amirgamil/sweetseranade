@@ -2,7 +2,7 @@ from langchain import PromptTemplate, FewShotPromptTemplate
 from langchain.llms import OpenAI
 
 
-llm = OpenAI(model_name="text-davinci-003", n=1, best_of=1)
+llm_complete = OpenAI(model_name="text-davinci-003", n=1, best_of=1)
 
 # TODO: experiment with different prompts to see results
 
@@ -164,7 +164,7 @@ def generate_love_song(character_first: str, character_second: str, context: str
         )
         print(final_prompt)
         # call API with prompt
-        return llm(final_prompt)
+        return llm_complete(final_prompt)
     except Exception as e:
         print("Error generating completion: ", e)
         raise e
