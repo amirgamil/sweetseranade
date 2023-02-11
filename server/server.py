@@ -1,7 +1,8 @@
 import io
 from fastapi import FastAPI, UploadFile, File
 from preprocessing import return_relevant_document_context
-from generate import generate_love_song, summarize_context
+from generate import generate_love_song
+from summarize import summarize_context
 from pydantic import BaseModel
 from constants import NUM_RELEVANT_CHUNKS
 
@@ -41,14 +42,24 @@ def return_love_poem(prompt: str, file: UploadFile = File(...)):
 
 
 @app.post("/summary-from-pdf")
-def summarize_contexts_from_story(prompt: str, file: UploadFile = File(...)):
+def summarize_contexts_from_story(
+    character_first: str, character_second: str, file: UploadFile = File(...)
+):
     try:
         stream = extract_stream(file)
-        print("here")
         relevant_document_context = return_relevant_document_context(
-            stream, prompt, NUM_RELEVANT_CHUNKS
+            stream,
+            # TODO this prompt needs to be finetuned for good semnatic searcj
+            "Write a detailed summary about {0}, {1} and their relationship. Include specific details about their relationship and how it changes throughout the story.".format(
+                character_first, character_second
+            ),
+            NUM_RELEVANT_CHUNKS,
         )
-        return {"context summary": summarize_context(relevant_document_context)}
+        return {
+            "context summary": summarize_context(
+                character_first, character_second, relevant_document_context
+            )
+        }
     except Exception as ex:
         print(ex)
         return {"error": "Error uploading file"}

@@ -1,14 +1,8 @@
 from langchain import PromptTemplate, FewShotPromptTemplate
 from langchain.llms import OpenAI
-from langchain.chains.summarize import load_summarize_chain
-from langchain.chains import AnalyzeDocumentChain
 
 
 llm_complete = OpenAI(model_name="text-davinci-003", n=1, best_of=1)
-llm = OpenAI(temperature=0)
-
-summary_chain = load_summarize_chain(llm, chain_type="map_reduce")
-llm_sumarize = AnalyzeDocumentChain(combine_docs_chain=summary_chain)
 
 # TODO: experiment with different prompts to see results
 
@@ -140,14 +134,6 @@ examples = [
         "output": output2,
     },
 ]
-
-
-def summarize_context(contexts: list[str]):
-    try:
-        return llm_sumarize.run("\n".join(contexts))
-    except Exception as e:
-        print("Error generating completion: ", e)
-        raise e
 
 
 def generate_love_song(character_first: str, character_second: str, context: str):
