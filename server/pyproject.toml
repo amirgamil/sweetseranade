@@ -12,6 +12,8 @@ langchain = "^0.0.82"
 openai = "^0.26.5"
 nltk = "^3.8.1"
 faiss-cpu = "^1.7.3"
+bs4 = "^0.0.1"
+unstructured = "^0.4.8"
 
 
 [build-system]
