@@ -1,5 +1,7 @@
 # sweet serenade
 
 To start server
-`uvicorn server:app —reload`
-`http://127.0.0.1:8000/docs`
+make server
+
+To run setup script
+make setup
