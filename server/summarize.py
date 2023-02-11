@@ -7,8 +7,6 @@ base_prompt = """Write a detailed summary about {0}, {1} and their relationship.
 llm = OpenAI(temperature=0)
 
 
-# chain.run(docs)
-
 
 def summarize_context(character_first: str, character_second: str, contexts: list[str]):
     try:
