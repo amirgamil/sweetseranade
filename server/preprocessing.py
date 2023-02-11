@@ -1,9 +1,9 @@
 from langchain.text_splitter import NLTKTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
+from langchain.document_loaders import UnstructuredPDFLoader
 from constants import DUMMY_TEXT_LONG
 
-# TODO
 def extract_text(file_path: str) -> str:
     """Accepts a PDF or Image file & extracts the text from the file
 
@@ -13,7 +13,9 @@ def extract_text(file_path: str) -> str:
     Returns:
         str: Extracted text
     """
-    pass
+    loader = UnstructuredPDFLoader("file_path")
+    data = loader.load()
+    return data.page_content
 
 def chunk_text(text: str) -> list[str]:
     """Given a string of text, will chunk the text and return an array of chunked text.
@@ -41,19 +43,6 @@ def get_chunk_embeddings(chunks: list[str]) -> list[list[float]]:
     chunk_embeddings = embeddings.embed_documents(chunks)
     return chunk_embeddings
 
-def calculate_embedding(text: str) -> list[float]:
-    """For a single piece of text, calculates the embeddings for that text
-
-    Args:
-        text (str): Text to calculate embedding for 
-
-    Returns:
-        list[float]: Text embedding
-    """
-    embeddings = OpenAIEmbeddings()
-    text_embedding = embeddings.embed_query(text)
-    return text_embedding
-
 def find_relevant_chunks(prompt_subset: str, chunks: list[str], k: int) -> list[str]:
     """Given a prompt subset, a list of chunks, & chunk embeddings, returns the K chunks with with the cloest embeddings
     to the prompt subset. 
@@ -72,6 +61,21 @@ def find_relevant_chunks(prompt_subset: str, chunks: list[str], k: int) -> list[
     relevant_chunks = all_chunks[:k]
     relevant_chunks_only_content = [document.page_content for document in relevant_chunks]
     return relevant_chunks_only_content
+
+def return_relevant_document_context(file_path: str, prompt_subset: str, k: int) -> list[str]:
+    """Given a file path & prompt, will perform semantic search to return K relevant chunks of the file
+
+    Args:
+        file_path (str): Path to file
+        prompt_subset (str): Prompt subset
+        k (int): Number of relevant file chunks to return
+
+    Returns:
+        list[str]: List of K most relevant file chunks
+    """
+    file_text = extract_text(file_path)
+    chunks = chunk_text(file_text)
+    return find_relevant_chunks(prompt_subset, chunks, k)
 
 # a = find_relevant_chunks("What's the effect of inflation on interest rates?", chunk_text(DUMMY_TEXT_LONG), 3)
 # for item in a:
