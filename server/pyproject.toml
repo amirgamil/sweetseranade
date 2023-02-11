@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "serenade"
 version = "0.1.0"
-description = "TBD"
+description = "Generate a context-aware love serenade by uploading a PDF of a book, text message history, or anything else."
 authors = ["amir, verumlotus"]
 license = "MIT"
 readme = "README.md"
@@ -9,6 +9,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 langchain = "^0.0.82"
+openai = "^0.26.5"
+nltk = "^3.8.1"
 
 
 [build-system]
