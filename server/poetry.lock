@@ -236,6 +236,23 @@ html5lib = ["html5lib"]
 lxml = ["lxml"]
 
 [[package]]
+name = "blobfile"
+version = "2.0.1"
+description = "Read GCS, ABS and local paths with the same interface, clone of tensorflow.io.gfile"
+category = "main"
+optional = false
+python-versions = ">=3.7.0"
+files = [
+    {file = "blobfile-2.0.1-py3-none-any.whl", hash = "sha256:6f51b3e948f30a92e734a974b24fcd0f6a51841fd083de968899231481358da2"},
+]
+
+[package.dependencies]
+filelock = ">=3.0,<4.0"
+lxml = ">=4.9,<5.0"
+pycryptodomex = ">=3.8,<4.0"
+urllib3 = ">=1.25.3,<3"
+
+[[package]]
 name = "bs4"
 version = "0.0.1"
 description = "Dummy package for Beautiful Soup"
@@ -1808,6 +1825,49 @@ files = [
 ]
 
 [[package]]
+name = "pycryptodomex"
+version = "3.17"
+description = "Cryptographic library for Python"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+files = [
+    {file = "pycryptodomex-3.17-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:12056c38e49d972f9c553a3d598425f8a1c1d35b2e4330f89d5ff1ffb70de041"},
+    {file = "pycryptodomex-3.17-cp27-cp27m-manylinux2010_i686.whl", hash = "sha256:ab33c2d9f275e05e235dbca1063753b5346af4a5cac34a51fa0da0d4edfb21d7"},
+    {file = "pycryptodomex-3.17-cp27-cp27m-manylinux2010_x86_64.whl", hash = "sha256:caa937ff29d07a665dfcfd7a84f0d4207b2ebf483362fa9054041d67fdfacc20"},
+    {file = "pycryptodomex-3.17-cp27-cp27m-manylinux2014_aarch64.whl", hash = "sha256:db23d7341e21b273d2440ec6faf6c8b1ca95c8894da612e165be0b89a8688340"},
+    {file = "pycryptodomex-3.17-cp27-cp27m-musllinux_1_1_aarch64.whl", hash = "sha256:f854c8476512cebe6a8681cc4789e4fcff6019c17baa0fd72b459155dc605ab4"},
+    {file = "pycryptodomex-3.17-cp27-cp27m-win32.whl", hash = "sha256:a57e3257bacd719769110f1f70dd901c5b6955e9596ad403af11a3e6e7e3311c"},
+    {file = "pycryptodomex-3.17-cp27-cp27m-win_amd64.whl", hash = "sha256:d38ab9e53b1c09608ba2d9b8b888f1e75d6f66e2787e437adb1fecbffec6b112"},
+    {file = "pycryptodomex-3.17-cp27-cp27mu-manylinux2010_i686.whl", hash = "sha256:3c2516b42437ae6c7a29ef3ddc73c8d4714e7b6df995b76be4695bbe4b3b5cd2"},
+    {file = "pycryptodomex-3.17-cp27-cp27mu-manylinux2010_x86_64.whl", hash = "sha256:5c23482860302d0d9883404eaaa54b0615eefa5274f70529703e2c43cc571827"},
+    {file = "pycryptodomex-3.17-cp27-cp27mu-manylinux2014_aarch64.whl", hash = "sha256:7a8dc3ee7a99aae202a4db52de5a08aa4d01831eb403c4d21da04ec2f79810db"},
+    {file = "pycryptodomex-3.17-cp27-cp27mu-musllinux_1_1_aarch64.whl", hash = "sha256:7cc28dd33f1f3662d6da28ead4f9891035f63f49d30267d3b41194c8778997c8"},
+    {file = "pycryptodomex-3.17-cp35-abi3-macosx_10_9_universal2.whl", hash = "sha256:2d4d395f109faba34067a08de36304e846c791808524614c731431ee048fe70a"},
+    {file = "pycryptodomex-3.17-cp35-abi3-macosx_10_9_x86_64.whl", hash = "sha256:55eed98b4150a744920597c81b3965b632038781bab8a08a12ea1d004213c600"},
+    {file = "pycryptodomex-3.17-cp35-abi3-manylinux2014_aarch64.whl", hash = "sha256:7fa0b52df90343fafe319257b31d909be1d2e8852277fb0376ba89d26d2921db"},
+    {file = "pycryptodomex-3.17-cp35-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:78f0ddd4adc64baa39b416f3637aaf99f45acb0bcdc16706f0cc7ebfc6f10109"},
+    {file = "pycryptodomex-3.17-cp35-abi3-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:a4fa037078e92c7cc49f6789a8bac3de06856740bb2038d05f2d9a2e4b165d59"},
+    {file = "pycryptodomex-3.17-cp35-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:88b0d5bb87eaf2a31e8a759302b89cf30c97f2f8ca7d83b8c9208abe8acb447a"},
+    {file = "pycryptodomex-3.17-cp35-abi3-musllinux_1_1_i686.whl", hash = "sha256:6feedf4b0e36b395329b4186a805f60f900129cdf0170e120ecabbfcb763995d"},
+    {file = "pycryptodomex-3.17-cp35-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:7a6651a07f67c28b6e978d63aa3a3fccea0feefed9a8453af3f7421a758461b7"},
+    {file = "pycryptodomex-3.17-cp35-abi3-win32.whl", hash = "sha256:32e764322e902bbfac49ca1446604d2839381bbbdd5a57920c9daaf2e0b778df"},
+    {file = "pycryptodomex-3.17-cp35-abi3-win_amd64.whl", hash = "sha256:4b51e826f0a04d832eda0790bbd0665d9bfe73e5a4d8ea93b6a9b38beeebe935"},
+    {file = "pycryptodomex-3.17-pp27-pypy_73-macosx_10_9_x86_64.whl", hash = "sha256:d4cf0128da167562c49b0e034f09e9cedd733997354f2314837c2fa461c87bb1"},
+    {file = "pycryptodomex-3.17-pp27-pypy_73-manylinux2010_x86_64.whl", hash = "sha256:c92537b596bd5bffb82f8964cabb9fef1bca8a28a9e0a69ffd3ec92a4a7ad41b"},
+    {file = "pycryptodomex-3.17-pp27-pypy_73-win32.whl", hash = "sha256:599bb4ae4bbd614ca05f49bd4e672b7a250b80b13ae1238f05fd0f09d87ed80a"},
+    {file = "pycryptodomex-3.17-pp38-pypy38_pp73-macosx_10_9_x86_64.whl", hash = "sha256:4c4674f4b040321055c596aac926d12f7f6859dfe98cd12f4d9453b43ab6adc8"},
+    {file = "pycryptodomex-3.17-pp38-pypy38_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:67a3648025e4ddb72d43addab764336ba2e670c8377dba5dd752e42285440d31"},
+    {file = "pycryptodomex-3.17-pp38-pypy38_pp73-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:40e8a11f578bd0851b02719c862d55d3ee18d906c8b68a9c09f8c564d6bb5b92"},
+    {file = "pycryptodomex-3.17-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:23d83b610bd97704f0cd3acc48d99b76a15c8c1540d8665c94d514a49905bad7"},
+    {file = "pycryptodomex-3.17-pp39-pypy39_pp73-macosx_10_9_x86_64.whl", hash = "sha256:fd29d35ac80755e5c0a99d96b44fb9abbd7e871849581ea6a4cb826d24267537"},
+    {file = "pycryptodomex-3.17-pp39-pypy39_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:64b876d57cb894b31056ad8dd6a6ae1099b117ae07a3d39707221133490e5715"},
+    {file = "pycryptodomex-3.17-pp39-pypy39_pp73-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:ee8bf4fdcad7d66beb744957db8717afc12d176e3fd9c5d106835133881a049b"},
+    {file = "pycryptodomex-3.17-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:c84689c73358dfc23f9fdcff2cb9e7856e65e2ce3b5ed8ff630d4c9bdeb1867b"},
+    {file = "pycryptodomex-3.17.tar.gz", hash = "sha256:0af93aad8d62e810247beedef0261c148790c52f3cd33643791cc6396dd217c1"},
+]
+
+[[package]]
 name = "pydantic"
 version = "1.10.4"
 description = "Data validation and settings management using python type hints"
@@ -2508,6 +2568,42 @@ files = [
 doc = ["reno", "sphinx", "tornado (>=4.5)"]
 
 [[package]]
+name = "tiktoken"
+version = "0.2.0"
+description = ""
+category = "main"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "tiktoken-0.2.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:d06705b55bb5f6c194285b6d15ad31bd7586d44fe433be31bc3694cf8c70169c"},
+    {file = "tiktoken-0.2.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:29f2969945fc430f817c907f59a2da9e7b797fe65527ba5b9442618643a0dc86"},
+    {file = "tiktoken-0.2.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:546455f27b6f7981d17de265b8b99e2fef980fbc3fde1d94b551f8354902000e"},
+    {file = "tiktoken-0.2.0-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:54b5dc05f934ac68e8da4d2cc3acd77bc6968114b09669056f1bff12acc57049"},
+    {file = "tiktoken-0.2.0-cp310-cp310-win_amd64.whl", hash = "sha256:5d3c48cb5649ce6bb2b207377dfdaa855e1e771b2e7f59fb251182c227573619"},
+    {file = "tiktoken-0.2.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:a55f983735745df9a87161d9e0ce9ef7d216039d389246be98c6d416bbb2452f"},
+    {file = "tiktoken-0.2.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:175de868393039a85fdf4c7cfb9b8883d1b248b9a3d9d0129d30414f5a59c333"},
+    {file = "tiktoken-0.2.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d6cd97b8cd14e3fe6647baa71c67f7f6b21a401fa996ccc3d93bf0ae02162af2"},
+    {file = "tiktoken-0.2.0-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:806e2b8c0b9786c0e3212e8b3a6ac8f5840066c00a31b89e6c8d9ba0421e77d7"},
+    {file = "tiktoken-0.2.0-cp311-cp311-win_amd64.whl", hash = "sha256:57b753aa9813f06fa5a26da2622114bf9769a8d1dca1b276d3613ee15da5b09d"},
+    {file = "tiktoken-0.2.0-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:aa3c15b87bb2cea56ecc8fe4c7bf105c5c2dc4090c2df97c141100488297173a"},
+    {file = "tiktoken-0.2.0-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:bd98fc4a9ec967a089c62497f21277b53aa3e15a6fec731ac707eea4d5527938"},
+    {file = "tiktoken-0.2.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ab10ad3280f348a0d3bfea6d503c6aa84676b159692701bc7604e67129bd2135"},
+    {file = "tiktoken-0.2.0-cp38-cp38-musllinux_1_1_x86_64.whl", hash = "sha256:59296d495aa6aec375a75f07da44fabb9720632c9404b41b9cbfe95e17966345"},
+    {file = "tiktoken-0.2.0-cp38-cp38-win_amd64.whl", hash = "sha256:3b078e6109d522c5ffc52859520eef6c17a3b120ed52b79f48cae0badff08fe0"},
+    {file = "tiktoken-0.2.0-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:aef47e8037652b18d2665b77e1f9416d3a86ccd383b039d0dfcb7d92085cef6d"},
+    {file = "tiktoken-0.2.0-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:d0f62f8349a5412962326dbc41c3823a1f381d8ab62afbee94480d8296499d8e"},
+    {file = "tiktoken-0.2.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9d0dbf7e1940427c11f0c8ab9046ad98d774850b21559b37ca60ff30d3a14620"},
+    {file = "tiktoken-0.2.0-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:8f1a7c6bec42a2fb5309a161d1b891fe5e181d4b620a962923a925f45fe25697"},
+    {file = "tiktoken-0.2.0-cp39-cp39-win_amd64.whl", hash = "sha256:3349fd809d17b722814a6a700e4bc0125527f39057b57a02ed42f53bb4e6e2f5"},
+    {file = "tiktoken-0.2.0.tar.gz", hash = "sha256:df41a3d478499757b5b32eae5e97657cf159d8d9e6764049dd7c3abb49e1b40f"},
+]
+
+[package.dependencies]
+blobfile = ">=2"
+regex = ">=2022.1.18"
+requests = ">=2.26.0"
+
+[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
@@ -2988,4 +3084,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "3.9.13"
-content-hash = "9ac5dc416c34ad0544320f69f2296ff2b15e6928c8acf970e6b9b41d78484bf6"
+content-hash = "7ef785d727b086577b1477233d86ecfc9c8afd4e9a9cffa854bf6e468f8d21c6"

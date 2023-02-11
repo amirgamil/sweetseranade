@@ -1,7 +1,7 @@
 import io
 from fastapi import FastAPI, UploadFile, File
 from preprocessing import return_relevant_document_context
-from generate import generate_love_song
+from generate import generate_love_song, summarize_context
 from pydantic import BaseModel
 from constants import NUM_RELEVANT_CHUNKS
 
@@ -10,6 +10,12 @@ app = FastAPI()
 
 class CompletionRequestBody(BaseModel):
     context: str
+
+
+def extract_stream(file: UploadFile = File(...)):
+    pdf_as_bytes = file.file.read()
+    # We convert the bytes into a Streamable object of bytes
+    return io.BytesIO(pdf_as_bytes)
 
 
 @app.get("/")
@@ -21,13 +27,28 @@ def root():
 def return_love_poem(prompt: str, file: UploadFile = File(...)):
     # TODO: Will read file & output love poem
     try:
-        pdf_as_bytes = file.file.read()
-        # We convert the bytes into a Streamable object of bytes
-        pdf_stream = io.BytesIO(pdf_as_bytes)
+        stream = extract_stream(file)
+        # either parse PDF of raw text for testing
         relevant_document_context = return_relevant_document_context(
-            pdf_stream, prompt, NUM_RELEVANT_CHUNKS
+            stream, prompt, NUM_RELEVANT_CHUNKS
         )
         return {"relevant_document_context": relevant_document_context}
+    except Exception as ex:
+        print(ex)
+        return {"error": "Error uploading file"}
+    finally:
+        file.file.close()
+
+
+@app.post("/summary-from-pdf")
+def summarize_contexts_from_story(prompt: str, file: UploadFile = File(...)):
+    try:
+        stream = extract_stream(file)
+        print("here")
+        relevant_document_context = return_relevant_document_context(
+            stream, prompt, NUM_RELEVANT_CHUNKS
+        )
+        return {"context summary": summarize_context(relevant_document_context)}
     except Exception as ex:
         print(ex)
         return {"error": "Error uploading file"}
