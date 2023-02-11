@@ -1,21 +1,25 @@
+import io
 from langchain.text_splitter import NLTKTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.document_loaders import UnstructuredPDFLoader
 from constants import DUMMY_TEXT_LONG
+from pypdf import PdfReader
 
-def extract_text(file_path: str) -> str:
+def extract_text(file_stream: io.BytesIO) -> str:
     """Accepts a PDF or Image file & extracts the text from the file
 
     Args:
-        file_path (str): Path to the file
+        file (io.BytesIO): Streamble bytes of the file
 
     Returns:
         str: Extracted text
     """
-    loader = UnstructuredPDFLoader("file_path")
-    data = loader.load()
-    return data.page_content
+    pdf = PdfReader(file_stream)
+    text = ""
+    for page in pdf.pages:
+        text += page.extract_text()
+    return text
 
 def chunk_text(text: str) -> list[str]:
     """Given a string of text, will chunk the text and return an array of chunked text.
@@ -62,18 +66,18 @@ def find_relevant_chunks(prompt_subset: str, chunks: list[str], k: int) -> list[
     relevant_chunks_only_content = [document.page_content for document in relevant_chunks]
     return relevant_chunks_only_content
 
-def return_relevant_document_context(file_path: str, prompt_subset: str, k: int) -> list[str]:
+def return_relevant_document_context(file_stream: io.BytesIO, prompt_subset: str, k: int) -> list[str]:
     """Given a file path & prompt, will perform semantic search to return K relevant chunks of the file
 
     Args:
-        file_path (str): Path to file
+        file_stream (io.BytesIO): Streamble bytes of the file
         prompt_subset (str): Prompt subset
         k (int): Number of relevant file chunks to return
 
     Returns:
         list[str]: List of K most relevant file chunks
     """
-    file_text = extract_text(file_path)
+    file_text = extract_text(file_stream)
     chunks = chunk_text(file_text)
     return find_relevant_chunks(prompt_subset, chunks, k)
 
