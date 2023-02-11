@@ -19,6 +19,7 @@ uvicorn = "^0.20.0"
 python-multipart = "^0.0.5"
 pypdf = "^3.4.0"
 poetry-dotenv-plugin = "^0.1.0"
+pydantic = "^1.10.4"
 
 
 [build-system]
