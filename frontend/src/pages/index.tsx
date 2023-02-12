@@ -7,13 +7,14 @@ import { SeparateImage } from "../components/SeparateImage";
 import { FileInput } from "../components/FileInput";
 import { Button } from "../components/Button";
 import { Typewriter } from "react-simple-typewriter";
+import { useWindowSize } from "../hooks/useWindowSize";
 import { Input } from "../components/Input";
 
 export default function Home() {
     const [characterFirst, setCharacterFirst] = React.useState("");
     const [characterSecond, setCharacterSecond] = React.useState("");
     const [fileName, setFileName] = React.useState<string>("");
-    const [exampleNumber, setExampleNumber] = React.useState<number>(0);
+    const size = useWindowSize();
     const [style, setStyle] = React.useState("");
 
     const fileRef = React.useRef<FileList | null>(null);
@@ -44,7 +45,10 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <div style={{ height: "200px" }} className="w-full flex justify-center items-center">
+            <div
+                style={{ height: size && size.height && size.height > 400 ? "287px" : "200px" }}
+                className="w-full flex justify-center items-center"
+            >
                 <SeparateImage image={FlowerTop} alt="Flowers" width={1391} height={287} className="top-0 z-0" />
             </div>
             <main className={styles.main}>
