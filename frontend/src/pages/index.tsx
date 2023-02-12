@@ -13,10 +13,29 @@ export default function Home() {
     const [characterFirst, setCharacterFirst] = React.useState("");
     const [characterSecond, setCharacterSecond] = React.useState("");
     const [fileName, setFileName] = React.useState<string>("");
+    const [exampleNumber, setExampleNumber] = React.useState<number>(0);
     const [style, setStyle] = React.useState("");
 
     const fileRef = React.useRef<FileList | null>(null);
-    console.log(fileRef.current);
+    const characters_first = React.useMemo(
+        () => ["Harry", "Tom", "AI", "King Henry VII", "Napolean", "Seneca", "Shakespeare"],
+        []
+    );
+    const characters_second = React.useMemo(
+        () => ["Hermonie", "Jerry", "human", "Catherine Par", "France", "Aristotle", "the pen"],
+        []
+    );
+    const song_styles = React.useMemo(
+        () => [
+            "heavy metal rock",
+            "pop cover by Taylor Swift",
+            "rap from 8 mile",
+            "a classic country song",
+            "traditional reggae song",
+        ],
+        []
+    );
+
     return (
         <div className={styles.container}>
             <Head>
@@ -25,22 +44,51 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <div style={{ height: "287px" }} className="w-full flex justify-center items-center">
+            <div style={{ height: "200px" }} className="w-full flex justify-center items-center">
                 <SeparateImage image={FlowerTop} alt="Flowers" width={1391} height={287} className="top-0 z-0" />
             </div>
             <main className={styles.main}>
                 <h1 className={styles.title}>️Sweet Serenade</h1>
                 <div className="text-center text-lg" style={{ width: "400px" }}>
-                    <Typewriter
-                        delaySpeed={0}
-                        words={[
-                            "Generate love songs between characters in a book, article, or literally anything you can turn into a PDF document.",
-                        ]}
-                    ></Typewriter>
+                    Generate love songs between characters in a book, article, or literally anything you can turn into a
+                    PDF document.
                 </div>
 
                 <div className="py-4"></div>
 
+                <div className="text-center text-lg" style={{ width: "400px" }}>
+                    Write a song about{" "}
+                    <span className="pink">
+                        <Typewriter
+                            typeSpeed={150}
+                            deleteSpeed={40}
+                            delaySpeed={5000}
+                            words={characters_first}
+                            loop={true}
+                        ></Typewriter>{" "}
+                    </span>
+                    and{" "}
+                    <span className="pink">
+                        <Typewriter
+                            typeSpeed={120}
+                            deleteSpeed={40}
+                            delaySpeed={5000}
+                            words={characters_second}
+                            loop={true}
+                        ></Typewriter>{" "}
+                    </span>{" "}
+                    in the style of a{" "}
+                    <span className="pink">
+                        <Typewriter
+                            typeSpeed={100}
+                            deleteSpeed={40}
+                            delaySpeed={2000}
+                            words={song_styles}
+                            loop={true}
+                        ></Typewriter>
+                    </span>
+                </div>
+                <div className="py-2"></div>
                 {fileName ? (
                     <div className="w-full flex flex-row justify-around items-center">
                         <p className="text-center text-lg">File: {fileName}</p>
@@ -69,6 +117,7 @@ export default function Home() {
                         <Button onClick={() => document.getElementById("pdf")?.click()}>Upload</Button>
                     </FileInput>
                 )}
+                <div className="py-2"></div>
                 {fileName && (
                     <div className="w-full px-20 flex flex-col justify-center items-center">
                         <div className="py-2"></div>
@@ -77,7 +126,7 @@ export default function Home() {
                         <Input placeholder="Character 2" value={characterSecond} onChange={setCharacterSecond} />
                         <div className="py-2"></div>
                         <Input placeholder="Style" value={style} onChange={setStyle} />
-                        <div className="py-2"></div>
+                        <div className="py-4"></div>
                         <Button onClick={() => document.getElementById("pdf")?.click()}>Generate song</Button>
                     </div>
                 )}

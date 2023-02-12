@@ -41,3 +41,7 @@ button:hover {
     background: white;
     color: black;
 }
+
+div .pink {
+    color: #f0adb0d9;
+}
