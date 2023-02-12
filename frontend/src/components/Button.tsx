@@ -5,6 +5,7 @@ const Container = styled.div<{ fgColor: string; bgColor: string }>`
         color: ${(props) => props.fgColor};
         background: ${(props) => props.bgColor};
         z-index: 5;
+        border: 1px solid #f0adb0d5;
 
         &:hover {
             background: #f0adb0d5;
