@@ -20,6 +20,7 @@ RUN pip install --upgrade -r /app/requirements.txt
 
 # Note, this is better in production since our image has less bloat
 # But, this line makes the time to build our Docker image much longer
+# on subsequent builds (since Docker doesn't have the cache baked into this layer)
 # RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
 RUN make setup
