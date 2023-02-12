@@ -11,6 +11,7 @@ llm = OpenAI(temperature=0)
 
 def summarize_context(character_first: str, character_second: str, contexts: list[str]):
     try:
+        print("starting contexts: ", contexts)
         docs = [Document(page_content=context) for context in contexts]
         # have to do a little weird acrobatics here because summarize cannot take more than one input
         # so have to construct the prompt template string after we interpolate the characters

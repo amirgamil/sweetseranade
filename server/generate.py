@@ -161,9 +161,8 @@ def generate_love_song(character_first: str, character_second: str, context: str
             character_first=character_first,
             character_second=character_second,
             style=style,
-            context=context,
+            context=context.strip(),
         )
-        print(final_prompt)
         # call API with prompt
         return llm_complete(final_prompt)
     except Exception as e:
