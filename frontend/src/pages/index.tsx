@@ -1,13 +1,22 @@
 import Head from "next/head";
-import Image from "next/image";
+import * as React from "react";
 import { Inter } from "@next/font/google";
 import FlowerTop from "../../public/flowers.png";
 import styles from "@/styles/Home.module.css";
 import { SeparateImage } from "../components/SeparateImage";
+import { FileInput } from "../components/FileInput";
+import { Button } from "../components/Button";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+    const [characterFirst, setCharacterFirst] = React.useState("");
+    const [characterSecond, setCharacterSecond] = React.useState("");
+    const [fileName, setFileName] = React.useState<string>("");
+    const [style, setStyle] = React.useState("");
+
+    const fileRef = React.useRef<FileList | null>(null);
+    console.log(fileRef.current);
     return (
         <div className={styles.container}>
             <Head>
@@ -21,20 +30,30 @@ export default function Home() {
             </div>
             <main className={styles.main}>
                 <h1 className={styles.title}>️Sweet Serenade</h1>
-                <p>
-                    <i>
-                        Tell your crush you like them with{" "}
-                        <a href="https://en.wikipedia.org/wiki/Zero_knowledge#:~:text=Zero%20knowledge%20may%20mean%3A,the%20veracity%20of%20the%20statement">
-                            zero-knowledge
-                        </a>
-                    </i>
+                <p className="text-center text-lg">
+                    Generate love songs between characters in a book, article, or literally anything you can turn into a
+                    PDF document
                 </p>
 
                 <div className="py-4"></div>
 
-                <h3 className="font-bold">How this works</h3>
-                <p className="text-center">Upload</p>
-
+                <FileInput
+                    name="first"
+                    accept=".pdf"
+                    id="pdf"
+                    onChange={(file) => {
+                        fileRef.current = file;
+                        setFileName(file?.[0].name || "");
+                    }}
+                >
+                    <Button onClick={() => document.getElementById("pdf")?.click()}>Upload</Button>
+                </FileInput>
+                {fileName && (
+                    <div>
+                        <div className="py-2"></div>
+                        <p className="text-center text-lg">File: {fileName}</p>
+                    </div>
+                )}
                 <div className="py-4"></div>
                 <footer className={styles.footer}>
                     Built by <a href="https://twitter.com/amirbolous">Amir</a> and{" "}
