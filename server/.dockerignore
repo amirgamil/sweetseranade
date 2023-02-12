@@ -1,0 +1,5 @@
+.venv
+.mypy_cache
+__pychace__
+# Don't want to bake in env vars into our final image
+.env

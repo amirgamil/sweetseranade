@@ -12,7 +12,7 @@ if [[ -z "${OPENAI_API_KEY}" ]]; then
 fi
 
 # Install the punkt file for nltk 
-poetry run python <<HEREDOC
+python <<HEREDOC
 import nltk
 nltk.download('punkt')
 print('here')
