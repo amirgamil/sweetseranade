@@ -1,7 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "@next/font/google";
+import FlowerTop from "../../public/flowers.png";
 import styles from "@/styles/Home.module.css";
+import { SeparateImage } from "../components/SeparateImage";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,6 +16,9 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
+            <div className="w-full flex justify-center items-center">
+                <SeparateImage image={FlowerTop} alt="Flowers" width={1391} height={287} className="top-0 " />
+            </div>
             <main className={styles.main}>
                 <h1 className={styles.title}>️Sweet Serenade</h1>
                 <p>
