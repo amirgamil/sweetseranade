@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 # This is used for coloring output of this script
 RED='\033[0;31m'
 GREEN='\033[0;32m'
