@@ -6,8 +6,7 @@ import styles from "@/styles/Home.module.css";
 import { SeparateImage } from "../components/SeparateImage";
 import { FileInput } from "../components/FileInput";
 import { Button } from "../components/Button";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Typewriter } from "react-simple-typewriter";
 
 export default function Home() {
     const [characterFirst, setCharacterFirst] = React.useState("");
@@ -30,10 +29,14 @@ export default function Home() {
             </div>
             <main className={styles.main}>
                 <h1 className={styles.title}>️Sweet Serenade</h1>
-                <p className="text-center text-lg">
-                    Generate love songs between characters in a book, article, or literally anything you can turn into a
-                    PDF document
-                </p>
+                <div className="text-center" style={{ width: "400px" }}>
+                    <Typewriter
+                        delaySpeed={0}
+                        words={[
+                            "Generate love songs between characters in a book, article, or literally anything you can turn into a PDF document",
+                        ]}
+                    ></Typewriter>
+                </div>
 
                 <div className="py-4"></div>
 
