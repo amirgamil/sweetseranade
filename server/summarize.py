@@ -1,5 +1,6 @@
 from langchain import PromptTemplate
 from langchain.chains.summarize import load_summarize_chain
+from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import OpenAI
 from langchain.docstore.document import Document
 
@@ -16,10 +17,15 @@ def summarize_context(character_first: str, character_second: str, contexts: lis
         final_prompt = base_prompt.format(character_first, character_second) + "\n{text}\n\nSUMMARY:"
         final_prompt_template = PromptTemplate(template = final_prompt, input_variables=["text"])
         llm_summarize = load_summarize_chain(llm, chain_type="map_reduce", return_intermediate_steps=True, map_prompt=final_prompt_template, combine_prompt=final_prompt_template)
-        # return the last intermediate step since that is more detailed than the summary output
-        res = llm_summarize({"input_documents": docs}, return_only_outputs=True)
-        return res["output_text"]
+        global_summary = llm_summarize({"input_documents": docs}, return_only_outputs=True)
+
+        # to augment the summary with more details that don't get lost, we extract some info from the summaries
+        doc_summaries = [Document(page_content=summary) for summary in global_summary["intermediate_steps"]]
+        qa_chain = load_qa_chain(llm, chain_type="stuff")
+        query = "What are characteristics that {0} and {1} like about each other and quotes (include quotations) they've said to each other".format(character_first, character_second)
+        additional_context = qa_chain({"input_documents": doc_summaries, "question": query}, return_only_outputs=True)
+        return global_summary["output_text"] + additional_context["output_text"]
     except Exception as e:
-        print("Error generating completion: ", e)
+        print("Error generating summary: ", e)
         raise e
 
