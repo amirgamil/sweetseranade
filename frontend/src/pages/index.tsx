@@ -9,6 +9,7 @@ import { Button } from "../components/Button";
 import { Typewriter } from "react-simple-typewriter";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { Input } from "../components/Input";
+import { TEMPLATE_SONG } from "../utils/constants";
 
 export default function Home() {
     const [characterFirst, setCharacterFirst] = React.useState("");
@@ -16,6 +17,7 @@ export default function Home() {
     const [fileName, setFileName] = React.useState<string>("");
     const size = useWindowSize();
     const [style, setStyle] = React.useState("");
+    const [generatedSong, setGeneratedSong] = React.useState("");
 
     const fileRef = React.useRef<FileList | null>(null);
     const characters_first = React.useMemo(
@@ -29,13 +31,18 @@ export default function Home() {
     const song_styles = React.useMemo(
         () => [
             "heavy metal rock",
-            "pop cover by Taylor Swift",
-            "rap from 8 mile",
+            "a pop cover by Taylor Swift",
+            "a rap from 8 mile",
             "a classic country song",
-            "traditional reggae song",
+            "a traditional reggae song",
         ],
         []
     );
+
+    const generateSong = async () => {
+        //TODO: fetch actual song
+        setGeneratedSong(TEMPLATE_SONG);
+    };
 
     return (
         <div className={styles.container}>
@@ -54,8 +61,10 @@ export default function Home() {
             <main className={styles.main}>
                 <h1 className={styles.title}>️Sweet Serenade</h1>
                 <div className="text-center text-lg" style={{ width: "400px" }}>
-                    Generate love songs between characters in a book, article, or literally anything you can turn into a
-                    PDF document.
+                    <i>
+                        Generate love songs between characters in a book, article, or literally anything you can turn
+                        into a PDF document.
+                    </i>
                 </div>
 
                 <div className="py-4"></div>
@@ -63,33 +72,45 @@ export default function Home() {
                 <div className="text-center text-lg" style={{ width: "400px" }}>
                     Write a song about{" "}
                     <span className="pink">
-                        <Typewriter
-                            typeSpeed={150}
-                            deleteSpeed={40}
-                            delaySpeed={5000}
-                            words={characters_first}
-                            loop={true}
-                        ></Typewriter>{" "}
+                        {fileRef.current ? (
+                            characterFirst || "character 1"
+                        ) : (
+                            <Typewriter
+                                typeSpeed={150}
+                                deleteSpeed={40}
+                                delaySpeed={5000}
+                                words={characters_first}
+                                loop={true}
+                            ></Typewriter>
+                        )}{" "}
                     </span>
                     and{" "}
                     <span className="pink">
-                        <Typewriter
-                            typeSpeed={120}
-                            deleteSpeed={40}
-                            delaySpeed={5000}
-                            words={characters_second}
-                            loop={true}
-                        ></Typewriter>{" "}
+                        {fileRef.current ? (
+                            characterSecond || "character 2"
+                        ) : (
+                            <Typewriter
+                                typeSpeed={120}
+                                deleteSpeed={40}
+                                delaySpeed={4900}
+                                words={characters_second}
+                                loop={true}
+                            ></Typewriter>
+                        )}{" "}
                     </span>{" "}
-                    in the style of a{" "}
+                    in the style of{" "}
                     <span className="pink">
-                        <Typewriter
-                            typeSpeed={100}
-                            deleteSpeed={40}
-                            delaySpeed={2000}
-                            words={song_styles}
-                            loop={true}
-                        ></Typewriter>
+                        {fileRef.current ? (
+                            style || "style"
+                        ) : (
+                            <Typewriter
+                                typeSpeed={100}
+                                deleteSpeed={40}
+                                delaySpeed={2000}
+                                words={song_styles}
+                                loop={true}
+                            ></Typewriter>
+                        )}
                     </span>
                 </div>
                 <div className="py-2"></div>
@@ -131,13 +152,14 @@ export default function Home() {
                         <div className="py-2"></div>
                         <Input placeholder="Style" value={style} onChange={setStyle} />
                         <div className="py-4"></div>
-                        <Button onClick={() => document.getElementById("pdf")?.click()}>Generate song</Button>
+                        <Button onClick={generateSong}>Generate song</Button>
                     </div>
                 )}
                 <div className="py-4"></div>
+                {generatedSong && <div className={styles.song}>{generatedSong}</div>}
                 <footer className={styles.footer}>
                     Built by <a href="https://twitter.com/amirbolous">Amir</a> and{" "}
-                    <a href="https://twitter.com/verumlotus">verumlotus</a> and{" "}
+                    <a href="https://twitter.com/verumlotus">Verumlotus</a> and{" "}
                     <a href="https://github.com/amirgamil/zk-crush">open source</a> on Github
                 </footer>
             </main>

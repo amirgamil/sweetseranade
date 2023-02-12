@@ -3,7 +3,7 @@ import styled from "styled-components";
 const Container = styled.div<{ fgColor: string; bgColor: string }>`
     button {
         border: 1px solid #f0adb0d5 !important;
-        color: ${(props) => props.fgColor};
+        color: white;
         z-index: 5;
 
         &:hover {

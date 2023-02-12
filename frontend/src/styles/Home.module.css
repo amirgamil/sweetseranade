@@ -54,3 +54,15 @@
     flex-direction: column;
     align-items: center;
 }
+
+.song {
+    width: 100%;
+    display: flex;
+    padding: 0 0 3rem 6rem;
+    justify-items: center;
+    align-items: center;
+    word-break: break-word;
+    font-family: "Sevillana", cursive;
+    white-space: pre-wrap;
+    font-size: 1.7rem;
+}
