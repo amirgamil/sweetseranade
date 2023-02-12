@@ -47,6 +47,21 @@ def get_chunk_embeddings(chunks: list[str]) -> list[list[float]]:
     chunk_embeddings = embeddings.embed_documents(chunks)
     return chunk_embeddings
 
+def map_elems_to_index(arr: list[str]) -> dict[str, int]:
+    """Given an array ARR, will return a dictionary with elements of the array mapped
+    to their index in the array
+
+    Args:
+        arr (list[str]): Input array
+
+    Returns:
+        dict[str, int]: Dictionary mapping elements to index in array
+    """
+    res = dict()
+    for index in range(len(arr)):
+        res[arr[index]] = index
+    return res
+
 def find_relevant_chunks(prompt_subset: str, chunks: list[str], k: int) -> list[str]:
     """Given a prompt subset, a list of chunks, & chunk embeddings, returns the K chunks with with the cloest embeddings
     to the prompt subset. 
@@ -59,12 +74,26 @@ def find_relevant_chunks(prompt_subset: str, chunks: list[str], k: int) -> list[
     Returns:
         list[str]: List of K most relevant chunks
     """
+    # Create a mapping from chunks to their index in the chunks array
+    chunks_to_index = map_elems_to_index(chunks)
     embeddings = OpenAIEmbeddings()
     chunk_search = FAISS.from_texts(chunks, embeddings)
-    all_chunks = chunk_search.similarity_search(prompt_subset)
-    relevant_chunks = all_chunks[:k]
-    relevant_chunks_only_content = [document.page_content for document in relevant_chunks]
-    return relevant_chunks_only_content
+    chunks_orderered_by_similarity = chunk_search.similarity_search(prompt_subset)
+    # Take the K most relevant chunks
+    relevant_chunks: list[str] = [document.page_content for document in chunks_orderered_by_similarity[:k]]
+    # Now, we want to add the chunks that are +/- 2 chunks from the relevant chunks
+    # found above
+    # set of (chunk, index) tuples - we use a set to avoid adding duplicate chunks
+    chunk_index_pairs: set[tuple[str, int]] = set()
+    for relevant_chunk in relevant_chunks:
+        relevant_chunk_index = chunks_to_index[relevant_chunk]
+        # Grab the chunks +/- 2 from this relevant chunk
+        for index in range(max(0, relevant_chunk_index - 2), min(relevant_chunk_index + 3, len(chunks) - 1)):
+            chunk_index_pairs.add((chunks[index], index))
+    # Sort the chunks by index
+    sorted_chunk_index_pairs = sorted(list(chunk_index_pairs), key = lambda x: x[1])
+    # Return only the chunks (filter out the index)
+    return [chunk for chunk, _ in sorted_chunk_index_pairs]
 
 def return_relevant_document_context(file_stream: io.BytesIO, prompt_subset: str, k: int) -> list[str]:
     """Given a file path & prompt, will perform semantic search to return K relevant chunks of the file
