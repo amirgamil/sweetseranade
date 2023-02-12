@@ -3,3 +3,6 @@ server:
 
 setup:
 	sh scripts/setup.sh
+
+type-check:
+	mypy .

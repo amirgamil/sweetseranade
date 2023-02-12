@@ -95,7 +95,7 @@ def generate_love_song_completion(
 ):
     # TODO: Will read file & output love poem
     try:
-        completion = generate_love_song(character_first, character_second, body.context)
+        completion = generate_love_song("poem", character_first, character_second, body.context)
         return {"completion": completion}
     except Exception as ex:
         print(ex)

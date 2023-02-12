@@ -63,16 +63,16 @@ def map_elems_to_index(arr: list[str]) -> dict[str, int]:
     return res
 
 def find_relevant_chunks(prompt_subset: str, chunks: list[str], k: int) -> list[str]:
-    """Given a prompt subset, a list of chunks, & chunk embeddings, returns the K chunks with with the cloest embeddings
-    to the prompt subset. 
+    """Given a prompt subset, a list of chunks, & chunk embeddings, returns the most relevant chunks and their
+    closest chunk neighbors (within the original chunks list)
 
     Args:
         prompt_subset (str): Subset of the prompt
         chunks (list[str]): List of chunks
-        k (int): Number of relevant chunks to return
+        k (int): Number of relevant chunks to analyze – we return these chunks & chunks surrounding them
 
     Returns:
-        list[str]: List of K most relevant chunks
+        list[str]: List of most relevant chunks & surrounding neighbors
     """
     # Create a mapping from chunks to their index in the chunks array
     chunks_to_index = map_elems_to_index(chunks)
