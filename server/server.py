@@ -4,9 +4,25 @@ from preprocessing import return_relevant_document_context
 from generate import generate_love_song
 from summarize import summarize_context
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 from constants import NUM_RELEVANT_CHUNKS
 
+
 app = FastAPI()
+
+origins = [
+    "https://www.sweetserenade.xyz/",
+    "http://localhost:3000",
+    "http://localhost:*",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class CompletionRequestBody(BaseModel):
