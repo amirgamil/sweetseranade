@@ -110,8 +110,4 @@ def return_relevant_document_context(file_stream: io.BytesIO, prompt_subset: str
     chunks = chunk_text(file_text)
     return find_relevant_chunks(prompt_subset, chunks, k)
 
-# a = find_relevant_chunks("What's the effect of inflation on interest rates?", chunk_text(DUMMY_TEXT_LONG), 3)
-# for item in a:
-#     print(f'Item is {item}\n')
-
 
