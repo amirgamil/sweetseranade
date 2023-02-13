@@ -9,6 +9,8 @@ Our backend server is written in python & uses [FastAPI](https://fastapi.tiangol
 
 For deployment, we deploy a [docker](https://www.docker.com/) container on [AWS ECS](https://aws.amazon.com/ecs/) using [Fargate](https://aws.amazon.com/fargate/) as our compute engine to autoscale compute resources depending on website load. Our container fleet sits behind an [Elastic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) that provides SSL termination. 
 
+![serenade](https://user-images.githubusercontent.com/97858468/218360673-ddae3f56-2bd1-4cf1-8fb6-e236b7963e46.png)
+
 ## Build
 ### Backend
 For our backend code we use a Makefile for our build process and [Poetry](https://python-poetry.org/) as our dependency manager for Python. Install poetry, change directories into the `server` folder, and then run `poetry install` to install all dependencies. Note that we require `python 3.9.13` and that the [Rust Compiler](https://www.rust-lang.org/) must be installed on your machine in order to build certain dependencies. An OpenAI API Key is required for the project, and must be available in the environment as `OPENAI_API_KEY`. You can run `export OPENAI_API_KEY=<your key>` in your current shell or add the key to your `.zshenv` file. 
@@ -16,7 +18,7 @@ For our backend code we use a Makefile for our build process and [Poetry](https:
 Afterwards, run `make setup` to configure your environment to run our application. To run the server run `make server`. To build a docker image for the server run `make docker-build-local`. To create a docker container based on the image run `make docker-run-local`. 
 
 ### Frontend
-
+Our frontend is built using [React](https://reactjs.org/), [Next.js](https://nextjs.org/), and [Tailwind CSS](https://tailwindcss.com/). To run our web app locally, change directories into the `frontend` directory and run `yarn install` to install all dependencies. Then run `yarn dev`. 
 
 ## Improvements
 There are many parameters to tune that could possibly lead to improved love song outputs. There is room for experimentation in all of these. We chunked the extracted PDF text into chunks of roughly size 200, and had a chunk overlap of roughly 40 characters. We find the 4 most relevant chunks via semantic search, and for each relevant chunk we also find the +/- 2 neighboring chunks in the original text. It is possible that by changing these parameters we may be able to capture richer context. One of the biggest areas of experimentation is prompt tuning[^1] in both the prompt to summarize our relevant chunks and also in the prompt to generate the love song. 
