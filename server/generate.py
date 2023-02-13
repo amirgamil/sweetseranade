@@ -4,8 +4,6 @@ from langchain.llms import OpenAI
 
 llm_complete = OpenAI(model_name="text-davinci-003", n=1, best_of=1)
 
-# TODO: experiment with different prompts to see results
-
 example_formatter_template = """
 Characters: {character_first},{character_second}
 Style: {style}
