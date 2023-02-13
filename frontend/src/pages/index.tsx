@@ -1,6 +1,5 @@
 import Head from "next/head";
 import * as React from "react";
-import { Inter } from "@next/font/google";
 import FlowerTop from "../../public/flowers.png";
 import styles from "@/styles/Home.module.css";
 import { SeparateImage } from "../components/SeparateImage";
@@ -10,6 +9,7 @@ import { Typewriter } from "react-simple-typewriter";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { Input } from "../components/Input";
 import { TEMPLATE_SONG } from "../utils/constants";
+import axios from "axios";
 
 export default function Home() {
     const [characterFirst, setCharacterFirst] = React.useState("");
@@ -42,6 +42,26 @@ export default function Home() {
     const generateSong = async () => {
         //TODO: fetch actual song
         setGeneratedSong(TEMPLATE_SONG);
+        if (fileRef.current) {
+            console.log(fileRef.current);
+            const file = fileRef.current[0];
+            const result = await axios.post(
+                `https://api.sweetserenade.xyz/create-song?style=${encodeURIComponent(
+                    style
+                )}&character_first=${encodeURIComponent(characterFirst)}&character_second=${encodeURIComponent(
+                    characterSecond
+                )}`,
+                file,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            console.log(result);
+            //@ts-ignore
+            setGeneratedSong(result.output_text);
+        }
     };
 
     return (
