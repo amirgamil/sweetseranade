@@ -21,7 +21,7 @@ Afterwards, run `make setup` to configure your environment to run our applicatio
 ## Improvements
 There are many parameters to tune that could possibly lead to improved love song outputs. There is room for experimentation in all of these. We chunked the extracted PDF text into chunks of roughly size 200, and had a chunk overlap of roughly 40 characters. We find the 4 most relevant chunks via semantic search, and for each relevant chunk we also find the +/- 2 neighboring chunks in the original text. It is possible that by changing these parameters we may be able to capture richer context. One of the biggest areas of experimentation is prompt tuning[^1] in both the prompt to summarize our relevant chunks and also in the prompt to generate the love song. 
 
-[^1] There is ongoing research in prompt tuning. See [here](https://aclanthology.org/2021.emnlp-main.243/)
+[^1]: There is ongoing research in prompt tuning. See [here](https://aclanthology.org/2021.emnlp-main.243/)
 
 ## Acknowledgement & Disclaimer
 We do not make any active efforts to store the contents of the PDF you upload, character names, or the style names, but cannot fully guarantee that these values are not captured in logs in the event of an error.
