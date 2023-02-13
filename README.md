@@ -1,6 +1,6 @@
 # SweetSerenade
 
-Generate love songs between characters in a book, article, or literally anything you can turn into a PDF document. Website here (TODO). Built by [Amir](https://twitter.com/amirbolous) & [Verumlotus](https://twitter.com/verumlotus).
+Generate love songs between characters in a book, article, or literally anything you can turn into a PDF document. Website [here](https://www.sweetserenade.xyz/). Built by [Amir](https://twitter.com/amirbolous) & [Verumlotus](https://twitter.com/verumlotus).
 
 ## Background & Architecture
 SweetSerenade is a Valentine's day hack that accepts a PDF (generated from a book, text message history, etc.), extracts relevant context from the PDF for 2 characters, and generates a love poem in any style you choose. 
