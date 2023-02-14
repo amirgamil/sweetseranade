@@ -94,7 +94,6 @@ export default function Home() {
                 toast.success("Song generated! Scroll down to see your song!");
             } catch (ex: unknown) {
                 if (isAxiosError(ex)) {
-                    console.log(ex.response?.data.detail);
                     if (ex && ex?.response?.data.detail === "Please pass in OpenAI key") {
                         setErrorMesage("Sorry, for large documents please pass in your OpenAI key");
                     } else {
