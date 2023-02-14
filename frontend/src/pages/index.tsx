@@ -73,10 +73,10 @@ export default function Home() {
                 });
                 if (axiosResponse.status != 200) {
                     if (axiosResponse.data.detail === "File too large, please pass in OpenAI key") {
-                        setErrorMesage("Sorry, for large documents please pass in your OpenAI key");
+                        setErrorMesage("Sorry, for large documents please pass in your OpenAI key!");
                     } else {
                         setErrorMesage(
-                            "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
+                            "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits or are being rate limited. Try passing in your own key!"
                         );
                     }
                     setLoadingText(undefined);
@@ -94,12 +94,12 @@ export default function Home() {
                         setErrorMesage("Sorry, for large documents please pass in your OpenAI key");
                     } else {
                         setErrorMesage(
-                            "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
+                            "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits or are being rate limited. Try passing in your own key!"
                         );
                     }
                 } else {
                     setErrorMesage(
-                        "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
+                        "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits or are being rate limited. Try passing in your own key!"
                     );
                 }
                 setLoadingText(undefined);
