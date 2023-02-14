@@ -112,6 +112,6 @@ def return_relevant_document_context(file_stream: io.BytesIO, prompt_subset: str
     """
     file_text = extract_text(file_stream)
     chunks = chunk_text(file_text)
-    return find_relevant_chunks(prompt_subset, chunks, k)
+    return find_relevant_chunks(prompt_subset, chunks, k, openai_api_key)
 
 
