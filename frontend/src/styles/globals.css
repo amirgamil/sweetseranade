@@ -22,9 +22,11 @@ a {
 
 input {
     background: transparent;
-    padding: 0.2rem 0.5rem;
     border: 1px solid white;
     outline: none;
+    display: flex;
+    justify-items: center;
+    align-items: center;
 }
 
 input:focus {

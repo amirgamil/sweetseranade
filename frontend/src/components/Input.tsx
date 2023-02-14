@@ -3,7 +3,7 @@ import styled from "styled-components";
 const Container = styled.div`
     font-family: "Tajawal", sans-serif;
     input {
-        padding: 0.3rem 0.5rem;
+        padding: 0.5rem 0.5rem;
         width: 100%;
     }
 `;
