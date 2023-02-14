@@ -46,6 +46,7 @@ export default function Home() {
     const generateSong = async () => {
         if (!loadingText) {
             setLoadingText(loadingTextOptions[0]);
+            setErrorMesage("");
             let updateLoading: NodeJS.Timer | undefined = undefined;
             try {
                 updateLoading = setInterval(
