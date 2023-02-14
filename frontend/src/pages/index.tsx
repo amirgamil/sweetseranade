@@ -45,6 +45,10 @@ export default function Home() {
 
     const generateSong = async () => {
         if (!loadingText) {
+            if (!characterFirst || !characterSecond || !style || !fileRef.current) {
+                setErrorMesage("Please fill out all fields");
+                return;
+            }
             setLoadingText(loadingTextOptions[0]);
             setErrorMesage("");
             let updateLoading: NodeJS.Timer | undefined = undefined;
@@ -90,7 +94,7 @@ export default function Home() {
                 toast.success("Song generated! Scroll down to see your song!");
             } catch (ex: unknown) {
                 if (isAxiosError(ex)) {
-                    if (ex && ex?.response?.data.detail === "File too large, please pass in OpenAI key") {
+                    if (ex && ex?.response?.data.detail === "Please pass in OpenAI key") {
                         setErrorMesage("Sorry, for large documents please pass in your OpenAI key");
                     } else {
                         setErrorMesage(
@@ -224,21 +228,33 @@ export default function Home() {
                         <Input placeholder="Style" value={style} onChange={setStyle} />
                         <div className="py-4"></div>
                         {errorMessage && (
-                            <div className="text-red-500 text-center font-sans text-lg pb-4">
+                            <div className="text-red-500 text-center font-sans text-md pb-4">
                                 {errorMessage}{" "}
-                                {!errorMessage.startsWith("Sorry, for")
-                                    ? "To keep this project running for free, feel free to donate here"
-                                    : ""}{" "}
-                                <a
-                                    className="text-green-600"
-                                    href="https://etherscan.io/address/0xaecac2b465c6135be357095cd220309622d41517"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    verumlotus.eth
-                                </a>
+                                {errorMessage.startsWith(
+                                    "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
+                                ) ? (
+                                    <>
+                                        To keep this project running for free, feel free to donate here
+                                        <a
+                                            className="text-green-600"
+                                            href="https://etherscan.io/address/0xaecac2b465c6135be357095cd220309622d41517"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            verumlotus.eth
+                                        </a>
+                                    </>
+                                ) : (
+                                    ""
+                                )}{" "}
                             </div>
                         )}
+                        <i className="text-center">
+                            Disclaimer, your OpenAI key (which is needed for large documents) is processed on our server
+                            to generate the song. We recommend generating a new key, then revoking permissions for it
+                            after playing with Serenade.
+                        </i>
+                        <div className="py-2"></div>
                         {loadingText ? (
                             <p className="text-center">{loadingText}</p>
                         ) : (
