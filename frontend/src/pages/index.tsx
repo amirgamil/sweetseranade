@@ -8,13 +8,14 @@ import { Button } from "../components/Button";
 import { Typewriter } from "react-simple-typewriter";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { Input } from "../components/Input";
-import { API_ENDPOINT } from "../utils/constants";
+import { TEMPLATE_SONG, API_ENDPOINT, loadingTextOptions } from "../utils/constants";
 import axios from "axios";
 
 export default function Home() {
     const [characterFirst, setCharacterFirst] = React.useState("");
     const [characterSecond, setCharacterSecond] = React.useState("");
     const [fileName, setFileName] = React.useState<string>("");
+    const [loadingText, setLoadingText] = React.useState<string | undefined>(undefined);
     const size = useWindowSize();
     const [style, setStyle] = React.useState("");
     const [generatedSong, setGeneratedSong] = React.useState("");
@@ -40,22 +41,41 @@ export default function Home() {
     );
 
     const generateSong = async () => {
-        const formData = new FormData();
-        const headers = {
-            'accept': 'application/json',
-            'Content-Type': 'multipart/form-data'
-        };
-        formData.append("file", fileRef.current![0], "file");
-        const loveSong = await axios.post(API_ENDPOINT, formData, {
-            headers: headers,
-            params: {
-                'character_first': characterFirst,
-                'character_second': characterSecond,
-                'style': style
-            },
-        })
-        console.log(`The returned data is ${loveSong.data}`)
-        setGeneratedSong(loveSong.data.completion)
+        if (!loadingText) {
+            let updateLoading: NodeJS.Timer | undefined = undefined;
+            try {
+                updateLoading = setInterval(
+                    ((counter: number) => () => {
+                        console.log("rnning");
+                        counter = (counter + 1) % loadingTextOptions.length;
+                        setLoadingText(loadingTextOptions[counter]);
+                    })(0),
+                    2000
+                );
+                const formData = new FormData();
+                const headers = {
+                    accept: "application/json",
+                    "Content-Type": "multipart/form-data",
+                };
+                formData.append("file", fileRef.current![0], "file");
+                const loveSong = await axios.post(API_ENDPOINT, formData, {
+                    headers: headers,
+                    params: {
+                        character_first: characterFirst,
+                        character_second: characterSecond,
+                        style: style,
+                    },
+                });
+                console.log(`The returned data is ${loveSong.data}`);
+                setGeneratedSong(loveSong.data.completion);
+                setLoadingText(undefined);
+                clearInterval(updateLoading);
+            } catch (ex: unknown) {
+                setLoadingText(undefined);
+                clearInterval(updateLoading);
+                //TODO: display error message
+            }
+        }
     };
 
     return (
@@ -166,7 +186,11 @@ export default function Home() {
                         <div className="py-2"></div>
                         <Input placeholder="Style" value={style} onChange={setStyle} />
                         <div className="py-4"></div>
-                        <Button onClick={generateSong}>Generate song</Button>
+                        {loadingText ? (
+                            <p className="text-center">{loadingText}</p>
+                        ) : (
+                            <Button onClick={generateSong}>Generate song</Button>
+                        )}
                     </div>
                 )}
                 <div className="py-4"></div>
