@@ -8,7 +8,8 @@ import { Button } from "../components/Button";
 import { Typewriter } from "react-simple-typewriter";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { Input } from "../components/Input";
-import { TEMPLATE_SONG, API_ENDPOINT, loadingTextOptions } from "../utils/constants";
+import { API_ENDPOINT, loadingTextOptions } from "../utils/constants";
+import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 export default function Home() {
@@ -69,6 +70,7 @@ export default function Home() {
                 setGeneratedSong(loveSong.data.completion);
                 setLoadingText(undefined);
                 clearInterval(updateLoading);
+                toast.success("Song generated! Scroll down to see your song!");
             } catch (ex: unknown) {
                 setLoadingText(undefined);
                 clearInterval(updateLoading);
@@ -209,6 +211,7 @@ export default function Home() {
                     </a>{" "}
                     on Github
                 </footer>
+                <Toaster />
             </main>
         </div>
     );
