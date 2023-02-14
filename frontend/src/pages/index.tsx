@@ -230,17 +230,21 @@ export default function Home() {
                         {errorMessage && (
                             <div className="text-red-500 text-center font-sans text-md pb-4">
                                 {errorMessage}{" "}
-                                {!errorMessage.startsWith("Sorry, for")
-                                    ? "To keep this project running for free, feel free to donate here"
-                                    : ""}{" "}
-                                <a
-                                    className="text-green-600"
-                                    href="https://etherscan.io/address/0xaecac2b465c6135be357095cd220309622d41517"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    verumlotus.eth
-                                </a>
+                                {!errorMessage.startsWith("Sorry, for") ? (
+                                    <>
+                                        To keep this project running for free, feel free to donate here
+                                        <a
+                                            className="text-green-600"
+                                            href="https://etherscan.io/address/0xaecac2b465c6135be357095cd220309622d41517"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            verumlotus.eth
+                                        </a>
+                                    </>
+                                ) : (
+                                    ""
+                                )}{" "}
                             </div>
                         )}
                         <i className="text-center">
