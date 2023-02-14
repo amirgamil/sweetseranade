@@ -19,6 +19,7 @@ export default function Home() {
     const size = useWindowSize();
     const [style, setStyle] = React.useState("");
     const [generatedSong, setGeneratedSong] = React.useState("");
+    const [errorMessage, setErrorMesage] = React.useState("")
 
     const fileRef = React.useRef<FileList | null>(null);
     const characters_first = React.useMemo(
@@ -57,7 +58,7 @@ export default function Home() {
                     "Content-Type": "multipart/form-data",
                 };
                 formData.append("file", fileRef.current![0], "file");
-                const loveSong = await axios.post(API_ENDPOINT, formData, {
+                const axiosResponse = await axios.post(API_ENDPOINT, formData, {
                     headers: headers,
                     params: {
                         character_first: characterFirst,
@@ -65,14 +66,20 @@ export default function Home() {
                         style: style,
                     },
                 });
-                console.log(`The returned data is ${loveSong.data}`);
-                setGeneratedSong(loveSong.data.completion);
+                if (axiosResponse.status != 200) {
+                    setErrorMesage("Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!")
+                    setLoadingText(undefined);
+                    clearInterval(updateLoading);
+                }
+                setGeneratedSong(axiosResponse.data.completion);
                 setLoadingText(undefined);
+                // Reset the error message
+                setErrorMesage("")
                 clearInterval(updateLoading);
             } catch (ex: unknown) {
                 setLoadingText(undefined);
                 clearInterval(updateLoading);
-                //TODO: display error message
+                setErrorMesage("Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!")
             }
         }
     };
@@ -185,6 +192,7 @@ export default function Home() {
                         <div className="py-2"></div>
                         <Input placeholder="Style" value={style} onChange={setStyle} />
                         <div className="py-4"></div>
+                        {errorMessage && <div className="text-red-500 font-sans text-lg pb-4"> {errorMessage} </div>}
                         {loadingText ? (
                             <p className="text-center">{loadingText}</p>
                         ) : (
