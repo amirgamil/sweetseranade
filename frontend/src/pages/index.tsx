@@ -20,7 +20,7 @@ export default function Home() {
     const size = useWindowSize();
     const [style, setStyle] = React.useState("");
     const [generatedSong, setGeneratedSong] = React.useState("");
-    const [errorMessage, setErrorMesage] = React.useState("")
+    const [errorMessage, setErrorMesage] = React.useState("");
 
     const fileRef = React.useRef<FileList | null>(null);
     const characters_first = React.useMemo(
@@ -44,6 +44,7 @@ export default function Home() {
 
     const generateSong = async () => {
         if (!loadingText) {
+            setLoadingText(loadingTextOptions[0]);
             let updateLoading: NodeJS.Timer | undefined = undefined;
             try {
                 updateLoading = setInterval(
@@ -68,20 +69,24 @@ export default function Home() {
                     },
                 });
                 if (axiosResponse.status != 200) {
-                    setErrorMesage("Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!")
+                    setErrorMesage(
+                        "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
+                    );
                     setLoadingText(undefined);
                     clearInterval(updateLoading);
                 }
                 setGeneratedSong(axiosResponse.data.completion);
                 setLoadingText(undefined);
                 // Reset the error message
-                setErrorMesage("")
+                setErrorMesage("");
                 clearInterval(updateLoading);
                 toast.success("Song generated! Scroll down to see your song!");
             } catch (ex: unknown) {
                 setLoadingText(undefined);
                 clearInterval(updateLoading);
-                setErrorMesage("Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!")
+                setErrorMesage(
+                    "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
+                );
             }
         }
     };
@@ -194,11 +199,19 @@ export default function Home() {
                         <div className="py-2"></div>
                         <Input placeholder="Style" value={style} onChange={setStyle} />
                         <div className="py-4"></div>
-                        {errorMessage && 
-                            <div className="text-red-500 text-center font-sans text-lg pb-4"> 
-                                {errorMessage} To keep this project running for free, feel free to donate here <a className="text-green-600" href="https://etherscan.io/address/0xaecac2b465c6135be357095cd220309622d41517" target="_blank" rel="noreferrer">verumlotus.eth</a> 
+                        {errorMessage && (
+                            <div className="text-red-500 text-center font-sans text-lg pb-4">
+                                {errorMessage} To keep this project running for free, feel free to donate here{" "}
+                                <a
+                                    className="text-green-600"
+                                    href="https://etherscan.io/address/0xaecac2b465c6135be357095cd220309622d41517"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    verumlotus.eth
+                                </a>
                             </div>
-                        }
+                        )}
                         {loadingText ? (
                             <p className="text-center">{loadingText}</p>
                         ) : (
