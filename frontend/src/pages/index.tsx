@@ -10,7 +10,7 @@ import { useWindowSize } from "../hooks/useWindowSize";
 import { Input } from "../components/Input";
 import { API_ENDPOINT, loadingTextOptions } from "../utils/constants";
 import toast, { Toaster } from "react-hot-toast";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 
 export default function Home() {
     const [characterFirst, setCharacterFirst] = React.useState("");
@@ -70,7 +70,7 @@ export default function Home() {
                     },
                 });
                 if (axiosResponse.status != 200) {
-                    if (axiosResponse.data.errror === "File too large, please pass in OpenAI key") {
+                    if (axiosResponse.data.detail === "File too large, please pass in OpenAI key") {
                         setErrorMesage("Sorry, for large documents please pass in your OpenAI key");
                     } else {
                         setErrorMesage(
@@ -87,11 +87,21 @@ export default function Home() {
                 clearInterval(updateLoading);
                 toast.success("Song generated! Scroll down to see your song!");
             } catch (ex: unknown) {
+                if (isAxiosError(ex)) {
+                    if (ex && ex?.response?.data.detail === "File too large, please pass in OpenAI key") {
+                        setErrorMesage("Sorry, for large documents please pass in your OpenAI key");
+                    } else {
+                        setErrorMesage(
+                            "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
+                        );
+                    }
+                } else {
+                    setErrorMesage(
+                        "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
+                    );
+                }
                 setLoadingText(undefined);
                 clearInterval(updateLoading);
-                setErrorMesage(
-                    "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
-                );
             }
         }
     };
@@ -212,7 +222,10 @@ export default function Home() {
                         <div className="py-4"></div>
                         {errorMessage && (
                             <div className="text-red-500 text-center font-sans text-lg pb-4">
-                                {errorMessage} To keep this project running for free, feel free to donate here{" "}
+                                {errorMessage}{" "}
+                                {!errorMessage.startsWith("Sorry, for")
+                                    ? "To keep this project running for free, feel free to donate here"
+                                    : ""}{" "}
                                 <a
                                     className="text-green-600"
                                     href="https://etherscan.io/address/0xaecac2b465c6135be357095cd220309622d41517"

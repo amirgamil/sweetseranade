@@ -1,5 +1,5 @@
 import io
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from preprocessing import return_relevant_document_context
 from generate import generate_love_song
 from summarize import summarize_context
@@ -99,8 +99,9 @@ def create_song(style: str, character_first: str, character_second: str, openai_
     try:
         stream = extract_stream(file)
         print("Stream: ", stream.getbuffer().nbytes)
+        print(not   openai_api_key and stream.getbuffer().nbytes > 50000)
         if stream.getbuffer().nbytes > 50000 and not openai_api_key:
-            return {"error": "File too large, please pass in OpenAI key"}
+            raise HTTPException(status_code=404, detail="File too large, please pass in OpenAI key")
         # either parse PDF of raw text for testing
         relevant_document_context = return_relevant_document_context(
             stream, "love song between {0} {1}".format(character_first, character_second), NUM_RELEVANT_CHUNKS, openai_api_key=openai_api_key
@@ -109,7 +110,6 @@ def create_song(style: str, character_first: str, character_second: str, openai_
         completion = generate_love_song(character_first, character_second, context_summary, style, openai_api_key=openai_api_key)
         return {"completion": completion}
     except Exception as ex:
-        print(ex)
-        return {"error": "Error uploading file"}
+        raise ex
     finally:
         file.file.close()
