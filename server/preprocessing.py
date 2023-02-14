@@ -62,7 +62,7 @@ def map_elems_to_index(arr: list[str]) -> dict[str, int]:
         res[arr[index]] = index
     return res
 
-def find_relevant_chunks(prompt_subset: str, chunks: list[str], k: int) -> list[str]:
+def find_relevant_chunks(prompt_subset: str, chunks: list[str], k: int, openai_api_key: str) -> list[str]:
     """Given a prompt subset, a list of chunks, & chunk embeddings, returns the most relevant chunks and their
     closest chunk neighbors (within the original chunks list)
 
@@ -76,7 +76,11 @@ def find_relevant_chunks(prompt_subset: str, chunks: list[str], k: int) -> list[
     """
     # Create a mapping from chunks to their index in the chunks array
     chunks_to_index = map_elems_to_index(chunks)
-    embeddings = OpenAIEmbeddings()
+    if openai_api_key:
+        embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
+    else:
+        embeddings = OpenAIEmbeddings()
+
     chunk_search = FAISS.from_texts(chunks, embeddings)
     chunks_orderered_by_similarity = chunk_search.similarity_search(prompt_subset)
     # Take the K most relevant chunks
@@ -95,7 +99,7 @@ def find_relevant_chunks(prompt_subset: str, chunks: list[str], k: int) -> list[
     # Return only the chunks (filter out the index)
     return [chunk for chunk, _ in sorted_chunk_index_pairs]
 
-def return_relevant_document_context(file_stream: io.BytesIO, prompt_subset: str, k: int) -> list[str]:
+def return_relevant_document_context(file_stream: io.BytesIO, prompt_subset: str, k: int, openai_api_key: str) -> list[str]:
     """Given a file path & prompt, will perform semantic search to return K relevant chunks of the file
 
     Args:
@@ -108,6 +112,6 @@ def return_relevant_document_context(file_stream: io.BytesIO, prompt_subset: str
     """
     file_text = extract_text(file_stream)
     chunks = chunk_text(file_text)
-    return find_relevant_chunks(prompt_subset, chunks, k)
+    return find_relevant_chunks(prompt_subset, chunks, k, openai_api_key)
 
 

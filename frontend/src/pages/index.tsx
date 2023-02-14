@@ -10,11 +10,12 @@ import { useWindowSize } from "../hooks/useWindowSize";
 import { Input } from "../components/Input";
 import { API_ENDPOINT, loadingTextOptions } from "../utils/constants";
 import toast, { Toaster } from "react-hot-toast";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 
 export default function Home() {
     const [characterFirst, setCharacterFirst] = React.useState("");
     const [characterSecond, setCharacterSecond] = React.useState("");
+    const [openaiKey, setOpenaiKey] = React.useState("");
     const [fileName, setFileName] = React.useState<string>("");
     const [loadingText, setLoadingText] = React.useState<string | undefined>(undefined);
     const size = useWindowSize();
@@ -66,12 +67,17 @@ export default function Home() {
                         character_first: characterFirst,
                         character_second: characterSecond,
                         style: style,
+                        openai_api_key: openaiKey,
                     },
                 });
                 if (axiosResponse.status != 200) {
-                    setErrorMesage(
-                        "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
-                    );
+                    if (axiosResponse.data.detail === "File too large, please pass in OpenAI key") {
+                        setErrorMesage("Sorry, for large documents please pass in your OpenAI key");
+                    } else {
+                        setErrorMesage(
+                            "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
+                        );
+                    }
                     setLoadingText(undefined);
                     clearInterval(updateLoading);
                 }
@@ -82,11 +88,21 @@ export default function Home() {
                 clearInterval(updateLoading);
                 toast.success("Song generated! Scroll down to see your song!");
             } catch (ex: unknown) {
+                if (isAxiosError(ex)) {
+                    if (ex && ex?.response?.data.detail === "File too large, please pass in OpenAI key") {
+                        setErrorMesage("Sorry, for large documents please pass in your OpenAI key");
+                    } else {
+                        setErrorMesage(
+                            "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
+                        );
+                    }
+                } else {
+                    setErrorMesage(
+                        "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
+                    );
+                }
                 setLoadingText(undefined);
                 clearInterval(updateLoading);
-                setErrorMesage(
-                    "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
-                );
             }
         }
     };
@@ -193,6 +209,13 @@ export default function Home() {
                 {fileName && (
                     <div className="w-full px-20 flex flex-col justify-center items-center">
                         <div className="py-2"></div>
+                        <Input
+                            placeholder="OpenAI Key (for documents over 50kB)"
+                            value={openaiKey}
+                            onChange={setOpenaiKey}
+                            password={true}
+                        />
+                        <div className="py-2"></div>
                         <Input placeholder="Character 1" value={characterFirst} onChange={setCharacterFirst} />
                         <div className="py-2"></div>
                         <Input placeholder="Character 2" value={characterSecond} onChange={setCharacterSecond} />
@@ -201,7 +224,10 @@ export default function Home() {
                         <div className="py-4"></div>
                         {errorMessage && (
                             <div className="text-red-500 text-center font-sans text-lg pb-4">
-                                {errorMessage} To keep this project running for free, feel free to donate here{" "}
+                                {errorMessage}{" "}
+                                {!errorMessage.startsWith("Sorry, for")
+                                    ? "To keep this project running for free, feel free to donate here"
+                                    : ""}{" "}
                                 <a
                                     className="text-green-600"
                                     href="https://etherscan.io/address/0xaecac2b465c6135be357095cd220309622d41517"

@@ -12,9 +12,10 @@ interface Props {
     placeholder: string;
     value: string;
     onChange: (newVal: string) => void;
+    password?: boolean;
 }
 
-export const Input = ({ placeholder, value, onChange }: Props) => {
+export const Input = ({ placeholder, value, onChange, password=false }: Props) => {
     return (
         <Container className="w-full">
             <input
@@ -22,6 +23,7 @@ export const Input = ({ placeholder, value, onChange }: Props) => {
                 placeholder={placeholder}
                 value={value}
                 onChange={(evt) => onChange(evt.target.value)}
+                type={password ? "password" : "text"}
             />
         </Container>
     );

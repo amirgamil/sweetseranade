@@ -5,12 +5,15 @@ from langchain.llms import OpenAI
 from langchain.docstore.document import Document
 
 base_prompt = """Write a detailed summary about {0}, {1} and their relationship. Include specific details about their relationship, interactions, personal details, and key events. Also include relevant quotes (marked with quotes) from the context they said or about them:"""
-llm = OpenAI(temperature=0)
 
 
 
-def summarize_context(character_first: str, character_second: str, contexts: list[str]):
+def summarize_context(character_first: str, character_second: str, contexts: list[str], openai_api_key: str):
     try:
+        if openai_api_key:
+            llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
+        else: 
+            llm = OpenAI(temperature=0)
         docs = [Document(page_content=context) for context in contexts]
         # have to do a little weird acrobatics here because summarize cannot take more than one input
         # so have to construct the prompt template string after we interpolate the characters
