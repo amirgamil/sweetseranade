@@ -46,7 +46,6 @@ export default function Home() {
             try {
                 updateLoading = setInterval(
                     ((counter: number) => () => {
-                        console.log("rnning");
                         counter = (counter + 1) % loadingTextOptions.length;
                         setLoadingText(loadingTextOptions[counter]);
                     })(0),
@@ -196,9 +195,19 @@ export default function Home() {
                 <div className="py-4"></div>
                 {generatedSong && <div className={styles.song}>{generatedSong}</div>}
                 <footer className={styles.footer}>
-                    Built by <a href="https://twitter.com/amirbolous" target="_blank" rel="noreferrer">Amir</a> and{" "}
-                    <a href="https://twitter.com/verumlotus" target="_blank" rel="noreferrer">Verumlotus</a> and{" "}
-                    <a href="https://github.com/amirgamil/sweetseranade" target="_blank" rel="noreferrer">open source</a> on Github
+                    Built by{" "}
+                    <a href="https://twitter.com/amirbolous" target="_blank" rel="noreferrer">
+                        Amir
+                    </a>{" "}
+                    and{" "}
+                    <a href="https://twitter.com/verumlotus" target="_blank" rel="noreferrer">
+                        Verumlotus
+                    </a>{" "}
+                    and{" "}
+                    <a href="https://github.com/amirgamil/sweetseranade" target="_blank" rel="noreferrer">
+                        open source
+                    </a>{" "}
+                    on Github
                 </footer>
             </main>
         </div>
