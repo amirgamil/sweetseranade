@@ -192,7 +192,11 @@ export default function Home() {
                         <div className="py-2"></div>
                         <Input placeholder="Style" value={style} onChange={setStyle} />
                         <div className="py-4"></div>
-                        {errorMessage && <div className="text-red-500 font-sans text-lg pb-4"> {errorMessage} </div>}
+                        {errorMessage && 
+                            <div className="text-red-500 text-center font-sans text-lg pb-4"> 
+                                {errorMessage} To keep this project running for free, feel free to donate here <a className="text-green-600" href="https://etherscan.io/address/0xaecac2b465c6135be357095cd220309622d41517" target="_blank" rel="noreferrer">verumlotus.eth</a> 
+                            </div>
+                        }
                         {loadingText ? (
                             <p className="text-center">{loadingText}</p>
                         ) : (
