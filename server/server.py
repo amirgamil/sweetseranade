@@ -11,7 +11,8 @@ from constants import NUM_RELEVANT_CHUNKS
 app = FastAPI()
 
 origins = [
-    "https://www.sweetserenade.xyz/",
+    "https://www.sweetserenade.xyz",
+    "https://www.sweetserenade.xyz/*",
     "http://localhost:3000",
     "http://localhost:*",
 ]
