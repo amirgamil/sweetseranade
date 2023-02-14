@@ -210,9 +210,10 @@ export default function Home() {
                     <div className="w-full px-20 flex flex-col justify-center items-center">
                         <div className="py-2"></div>
                         <Input
-                            placeholder="OpenAI Key (for large documents)"
+                            placeholder="OpenAI Key (for documents over 50kB)"
                             value={openaiKey}
                             onChange={setOpenaiKey}
+                            password={true}
                         />
                         <div className="py-2"></div>
                         <Input placeholder="Character 1" value={characterFirst} onChange={setCharacterFirst} />

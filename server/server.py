@@ -41,7 +41,7 @@ def root():
     return {"hello": "world"}
 
 
-@app.post("/find-relevant-chunks")
+# @app.post("/find-relevant-chunks")
 def find_relevant_chunks(prompt: str, file: UploadFile = File(...)):
     try:
         stream = extract_stream(file)
@@ -57,7 +57,7 @@ def find_relevant_chunks(prompt: str, file: UploadFile = File(...)):
         file.file.close()
 
 
-@app.post("/summary-from-pdf")
+# @app.post("/summary-from-pdf")
 def summarize_contexts_from_story(
     character_first: str, character_second: str, file: UploadFile = File(...)
 ):
@@ -83,7 +83,7 @@ def summarize_contexts_from_story(
 
 
 # for intermediate testing on GPT
-@app.post("/generate-love-song")
+# @app.post("/generate-love-song")
 def generate_love_song_completion(
     character_first: str, character_second: str, body: CompletionRequestBody
 ):
@@ -99,7 +99,7 @@ def create_song(style: str, character_first: str, character_second: str, openai_
     try:
         stream = extract_stream(file)
         if stream.getbuffer().nbytes > 50000 and not openai_api_key:
-            raise HTTPException(status_code=404, detail="File too large, please pass in OpenAI key")
+            raise HTTPException(status_code=413, detail="File too large, please pass in OpenAI key")
         # either parse PDF of raw text for testing
         relevant_document_context = return_relevant_document_context(
             stream, "love song between {0} {1}".format(character_first, character_second), NUM_RELEVANT_CHUNKS, openai_api_key=openai_api_key
