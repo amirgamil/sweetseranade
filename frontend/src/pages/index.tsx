@@ -9,7 +9,8 @@ import { Button } from "../components/Button";
 import { Typewriter } from "react-simple-typewriter";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { Input } from "../components/Input";
-import { TEMPLATE_SONG } from "../utils/constants";
+import { TEMPLATE_SONG, API_ENDPOINT } from "../utils/constants";
+import axios from "axios";
 
 export default function Home() {
     const [characterFirst, setCharacterFirst] = React.useState("");
@@ -40,8 +41,22 @@ export default function Home() {
     );
 
     const generateSong = async () => {
-        //TODO: fetch actual song
-        setGeneratedSong(TEMPLATE_SONG);
+        const formData = new FormData();
+        const headers = {
+            'accept': 'application/json',
+            'Content-Type': 'multipart/form-data'
+        };
+        formData.append("file", fileRef.current![0], "file");
+        const loveSong = await axios.post(API_ENDPOINT, formData, {
+            headers: headers,
+            params: {
+                'character_first': characterFirst,
+                'character_second': characterSecond,
+                'style': style
+            },
+        })
+        console.log(`The returned data is ${loveSong.data}`)
+        setGeneratedSong(loveSong.data.completion)
     };
 
     return (
