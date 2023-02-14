@@ -98,8 +98,9 @@ def generate_love_song_completion(
 def create_song(style: str, character_first: str, character_second: str, openai_api_key: str, file: UploadFile = File(...)):
     try:
         stream = extract_stream(file)
-        if stream.getbuffer().nbytes > 50000 and not openai_api_key:
-            raise HTTPException(status_code=413, detail="File too large, please pass in OpenAI key")
+        # Ask for OpenAI API Key on every request
+        if not openai_api_key:
+            raise HTTPException(status_code=413, detail="Please pass in OpenAI key")
         # either parse PDF of raw text for testing
         relevant_document_context = return_relevant_document_context(
             stream, "love song between {0} {1}".format(character_first, character_second), NUM_RELEVANT_CHUNKS, openai_api_key=openai_api_key
