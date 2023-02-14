@@ -230,7 +230,9 @@ export default function Home() {
                         {errorMessage && (
                             <div className="text-red-500 text-center font-sans text-md pb-4">
                                 {errorMessage}{" "}
-                                {!errorMessage.startsWith("Sorry, for") ? (
+                                {errorMessage.startsWith(
+                                    "Sorry, we ran into an issue. It's likely we ran out of our OpenAI credits – apologies!"
+                                ) ? (
                                     <>
                                         To keep this project running for free, feel free to donate here
                                         <a
