@@ -95,15 +95,18 @@ def generate_love_song_completion(
         return {"error": "Error generating completion"}
 
 @app.post("/create-song")
-def create_song(style: str, character_first: str, character_second: str, file: UploadFile = File(...)):
+def create_song(style: str, character_first: str, character_second: str, openai_api_key: str, file: UploadFile = File(...)):
     try:
         stream = extract_stream(file)
+        print("Stream: ", stream.getbuffer().nbytes)
+        if stream.getbuffer().nbytes > 50000 and not openai_api_key:
+            return {"error": "File too large, please pass in OpenAI key"}
         # either parse PDF of raw text for testing
         relevant_document_context = return_relevant_document_context(
-            stream, "love song between {0} {1}".format(character_first, character_second), NUM_RELEVANT_CHUNKS
+            stream, "love song between {0} {1}".format(character_first, character_second), NUM_RELEVANT_CHUNKS, openai_api_key=openai_api_key
         )
-        context_summary = summarize_context(character_first, character_second, relevant_document_context)
-        completion = generate_love_song(character_first, character_second, context_summary, style)
+        context_summary = summarize_context(character_first, character_second, relevant_document_context, openai_api_key=openai_api_key)
+        completion = generate_love_song(character_first, character_second, context_summary, style, openai_api_key=openai_api_key)
         return {"completion": completion}
     except Exception as ex:
         print(ex)

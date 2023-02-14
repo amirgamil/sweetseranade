@@ -2,7 +2,6 @@ from langchain import PromptTemplate, FewShotPromptTemplate
 from langchain.llms import OpenAI
 
 
-llm_complete = OpenAI(model_name="text-davinci-003", n=1, best_of=1)
 
 example_formatter_template = """
 Characters: {character_first},{character_second}
@@ -133,8 +132,12 @@ examples = [
 ]
 
 
-def generate_love_song(character_first: str, character_second: str, context: str, style: str):
+def generate_love_song(character_first: str, character_second: str, context: str, style: str, openai_api_key: str):
     try:
+        if openai_api_key:
+          llm_complete = OpenAI(model_name="text-davinci-003", n=1, best_of=1, openai_api_key=openai_api_key)
+        else:
+          llm_complete = OpenAI(model_name="text-davinci-003", n=1, best_of=1)
         example_prompt = PromptTemplate(
             input_variables=[
                 "character_first",
