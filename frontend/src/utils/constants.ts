@@ -1,4 +1,4 @@
-export const API_ENDPOINT = "https://api.sweetserenade.xyz/create-song";
+export const API_ENDPOINT = "https://verumlotus--sweetserenade-fastapi-app.modal.run/create-song";
 export const TEMPLATE_SONG = `Verse 1:
 Listen up people, this story's real
 Of two hearts in love that's beyond the steel

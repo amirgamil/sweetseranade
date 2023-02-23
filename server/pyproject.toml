@@ -22,6 +22,7 @@ poetry-dotenv-plugin = "^0.1.0"
 pydantic = "^1.10.4"
 tiktoken = "^0.2.0"
 mypy = "^1.0.0"
+modal-client = "^0.46.1338"
 
 
 [build-system]
