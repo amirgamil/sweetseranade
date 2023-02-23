@@ -2,10 +2,16 @@ FROM python:3.9.16 as requirements-stage
 
 WORKDIR /app
 
+# RUN if [ -z "$PATH" ]; then \
+#     export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin; \
+#   fi
+
 # Install Rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
-ENV PATH="/root/.cargo/bin:${PATH}"
+# ENV PATH="/root/.cargo/bin:${PATH}"
+
+RUN . "$HOME/.cargo/env"
 
 RUN python -m pip install --upgrade pip
 
@@ -25,6 +31,6 @@ RUN pip install --upgrade -r /app/requirements.txt
 
 RUN make setup
 
-EXPOSE 80
+# EXPOSE 80
 
-CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "80"]
+# CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "80"]

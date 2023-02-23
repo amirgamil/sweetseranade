@@ -6,7 +6,14 @@ from summarize import summarize_context
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from constants import NUM_RELEVANT_CHUNKS
+import modal
 
+stub = modal.Stub("sweetserenade")
+
+mount_exclude_lst = ['.venv', '.mypy_cache', '__pycache__']
+filter_artifacts = lambda path: False if any([substr in path for substr in mount_exclude_lst]) else True
+mount = modal.Mount.from_local_dir("../server", remote_path = "/", condition=filter_artifacts)
+image = modal.Image.from_dockerfile("Dockerfile", context_mount=mount)
 
 app = FastAPI()
 
@@ -113,3 +120,8 @@ def create_song(style: str, character_first: str, character_second: str, openai_
         raise ex
     finally:
         file.file.close()
+
+# This hooks up our asgi fastapi app to modal
+@stub.asgi(image=image, secret=modal.Secret.from_name("openai-secret"))
+def fastapi_app():
+    return app
